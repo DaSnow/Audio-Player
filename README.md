@@ -25,4 +25,4 @@ Please fill out the information below for each member of the team:
 
 ### Sebastian Montalvo Nieves : sebastian.montalvo3@upr.edu
 
-### Steven Lopez : steven.lopez11@uppr.edu
+### Steven Lopez Velez: steven.lopez11@upr.edu
