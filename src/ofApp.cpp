@@ -1,15 +1,17 @@
 #include "ofApp.hpp"
 
 //--------------------------------------------------------------
-void ofApp::setup() {
-    sound.load("beat.wav");           // Loads a sound file (in bin/data/)
-    sound.setLoop(true);              // Makes the song loop indefinitely
-    sound.setVolume(1);               // Sets the song volume
+void ofApp::setup()
+{
+    sound.load("beat.wav");             // Loads a sound file (in bin/data/)
+    sound.setLoop(true);                // Makes the song loop indefinitely
+    sound.setVolume(1);                 // Sets the song volume
     ofSetBackgroundColor(255, 170, 80); // Sets the Background Color
 }
 
 //--------------------------------------------------------------
-void ofApp::update() {
+void ofApp::update()
+{
     /* The update method is called muliple times per second
     It's in charge of updating variables and the logic of our app */
     ofSoundUpdate();               // Updates all sound players
@@ -18,7 +20,8 @@ void ofApp::update() {
 }
 
 //--------------------------------------------------------------
-void ofApp::draw() {
+void ofApp::draw()
+{
     /* The update method is called muliple times per second
     It's in charge of drawing all figures and text on screen */
 
@@ -31,56 +34,96 @@ void ofApp::draw() {
     ofDrawBitmapString("Song Progress: " + ofToString(percent) + "%", 0, 30);
 
     // Mode Selection
-    if (!playing) {
+    if (!playing)
+    {
         ofDrawBitmapString("Press 'p' to play some music!", ofGetWidth() / 2 - 50, ofGetHeight() / 2);
     }
     vector<float> amplitudes = visualizer.getAmplitudes();
-    if (mode == '1') {
+    if (mode == '1')
+    {
         drawMode1(amplitudes);
-    } else if (mode == '2') {
+    }
+    else if (mode == '2')
+    {
         drawMode2(amplitudes);
-    } else if (mode == '3') {
+    }
+    else if (mode == '3')
+    {
         drawMode3(amplitudes);
     }
 
     // ofDrawBitmapString("Current Mouse Position: " + ofToString(cur_x) + ", " + ofToString(cur_y), 0, 30);
 }
-void ofApp::drawMode1(vector<float> amplitudes) {
+void ofApp::drawMode1(vector<float> amplitudes)
+{
     ofFill();        // Drawn Shapes will be filled in with color
     ofSetColor(256); // This resets the color of the "brush" to white
     ofDrawBitmapString("Rectangle Height Visualizer", 0, 15);
-    ofSetColor(0, 0, ofRandom(0,256));
-    ofDrawRectRounded(2, ofGetHeight() - 100, 50, amplitudes[0], 10);
+    if (!pause)
+    {
+        lastColorRect = ofRandom(0, 256);
+        ofSetColor(0, 0, lastColorRect);
+        ofDrawRectRounded(2, ofGetHeight() - 100, 80, amplitudes[0], 10);
+    }
+    else
+    {
+        ofSetColor(0, 0, lastColorRect);
+        ofDrawRectRounded(2, ofGetHeight() - 100, 80, lastAmp, 10);
+    }
 }
-void ofApp::drawMode2(vector<float> amplitudes) {
+void ofApp::drawMode2(vector<float> amplitudes)
+{
     ofSetLineWidth(5); // Sets the line width
     ofNoFill();        // Only the outline of shapes will be drawn
     ofSetColor(256);   // This resets the color of the "brush" to white
     ofDrawBitmapString("Circle Radius Visualizer", 0, 15);
     int bands = amplitudes.size();
-    for (int i = 0; i < bands; i++) {
-        ofSetColor((bands - i) * 32 % 256, 18, 144); // Color varies between frequencies
-        ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, amplitudes[0] / (i + 1));
+    for (int i = 0; i < bands; i++)
+    {   if (!pause)
+        {
+            ofSetColor((bands - i) * 32 % 256, 18, 144); // Color varies between frequencies
+            ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, amplitudes[0] / (i + 1));
+        }
+        else
+        {
+            ofSetColor((bands - i) * 32 % 256, 18, 144); // Color varies between frequencies
+            ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, lastAmp / (i + 1));
+        }
     }
 }
 
-void ofApp::drawMode3(vector<float> amplitudes) {
+void ofApp::drawMode3(vector<float> amplitudes)
+{
     ofSetColor(256); // This resets the color of the "brush" to white
     ofDrawBitmapString("Rectangle Width Visualizer", 0, 15);
     // YOUR CODE HERE
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key) {
+void ofApp::keyPressed(int key)
+{
     // This method is called automatically when any key is pressed
-    switch (key) {
+    switch (key)
+    {
     case 'p':
-        if (playing) {
+        if (playing)
+        {
             sound.stop();
-        } else {
+            pause = false;
+        }
+        else
+        {
             sound.play();
         }
         playing = !playing;
+        break;
+    case 'a':
+        if (playing)
+        {
+            pause = !pause;
+            sound.setPaused(pause);
+            lastAmp = visualizer.getAmplitudes()[0];
+        }
         break;
     case '1':
         mode = '1';
@@ -95,44 +138,54 @@ void ofApp::keyPressed(int key) {
 }
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key) {
+void ofApp::keyReleased(int key)
+{
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseMoved(int x, int y) {
+void ofApp::mouseMoved(int x, int y)
+{
     cur_x = x;
     cur_y = y;
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button) {
+void ofApp::mouseDragged(int x, int y, int button)
+{
 }
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button) {
+void ofApp::mousePressed(int x, int y, int button)
+{
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button) {
+void ofApp::mouseReleased(int x, int y, int button)
+{
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseEntered(int x, int y) {
+void ofApp::mouseEntered(int x, int y)
+{
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseExited(int x, int y) {
+void ofApp::mouseExited(int x, int y)
+{
 }
 
 //--------------------------------------------------------------
-void ofApp::windowResized(int w, int h) {
+void ofApp::windowResized(int w, int h)
+{
 }
 
 //--------------------------------------------------------------
-void ofApp::gotMessage(ofMessage msg) {
+void ofApp::gotMessage(ofMessage msg)
+{
 }
 
 //--------------------------------------------------------------
-void ofApp::dragEvent(ofDragInfo dragInfo) {
+void ofApp::dragEvent(ofDragInfo dragInfo)
+{
 }
 //--------------------------------------------------------------

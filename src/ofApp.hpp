@@ -10,6 +10,9 @@ class ofApp : public ofBaseApp {
     AudioVisualizer visualizer;
 
     bool playing = false;
+    bool pause = false;
+    int lastColorRect;
+    float lastAmp;
     char mode = '1';
 
     int cur_x, cur_y = 0;
