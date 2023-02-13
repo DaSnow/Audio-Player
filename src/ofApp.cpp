@@ -79,14 +79,14 @@ void ofApp::drawMode2(vector<float> amplitudes)
     ofDrawBitmapString("Circle Radius Visualizer", 0, 15);
     int bands = amplitudes.size();
     for (int i = 0; i < bands; i++)
-    {   if (!pause)
+    {
+        ofSetColor((bands - i) * 32 % 256, 18, 144); // Color varies between frequencies
+       if (!pause)
         {
-            ofSetColor((bands - i) * 32 % 256, 18, 144); // Color varies between frequencies
             ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, amplitudes[0] / (i + 1));
         }
         else
         {
-            ofSetColor((bands - i) * 32 % 256, 18, 144); // Color varies between frequencies
             ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, lastAmp / (i + 1));
         }
     }
