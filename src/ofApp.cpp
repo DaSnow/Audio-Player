@@ -1,9 +1,27 @@
 #include "ofApp.hpp"
+#include <filesystem>
+#include <string>
+#include <array>
+using namespace std;
+namespace fs = std::filesystem;
 
 //--------------------------------------------------------------
 void ofApp::setup()
 {
-    sound.load("beat.wav");             // Loads a sound file (in bin/data/)
+    fs::path p = fs::current_path();
+    p += "\\bin\\data";
+    // int i = 0;
+    for (const auto &dir_entry : fs::directory_iterator{p})
+    {
+        string filename = dir_entry.path().filename().string();
+        string extension = filename.substr(filename.find_last_of("."));
+        if (extension == ".wav" || extension == ".mp3")
+        {
+            songs[cap] = dir_entry.path().filename().string();
+            cap++;
+        }
+    }
+    sound.load(songs[0]);               // Loads a sound file (in bin/data/)
     sound.setLoop(true);                // Makes the song loop indefinitely
     sound.setVolume(1);                 // Sets the song volume
     ofSetBackgroundColor(255, 170, 80); // Sets the Background Color
@@ -32,11 +50,16 @@ void ofApp::draw()
     float pos = playing ? progress : lastPos;
     int percent = pos * 100;
     ofDrawBitmapString("Song Progress: " + ofToString(percent) + "%", 0, 30);
+    ofDrawBitmapString("Current Song: " + songs[selectedSong], 0, 45);
 
     // Mode Selection
     if (!playing)
     {
         ofDrawBitmapString("Press 'p' to play some music!", ofGetWidth() / 2 - 50, ofGetHeight() / 2);
+    }
+    if (pause)
+    {
+        ofDrawBitmapString("Paused", ofGetWidth() / 2 - 50, ofGetHeight() / 2);
     }
     vector<float> amplitudes = visualizer.getAmplitudes();
     if (mode == '1')
@@ -81,7 +104,7 @@ void ofApp::drawMode2(vector<float> amplitudes)
     for (int i = 0; i < bands; i++)
     {
         ofSetColor((bands - i) * 32 % 256, 18, 144); // Color varies between frequencies
-       if (!pause)
+        if (!pause)
         {
             ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, amplitudes[0] / (i + 1));
         }
@@ -124,6 +147,16 @@ void ofApp::keyPressed(int key)
             sound.setPaused(pause);
             lastAmp = visualizer.getAmplitudes()[0];
         }
+        break;
+    case 'd':
+        sound.unload();
+        selectedSong = (this->selectedSong < cap - 1) ? ++selectedSong : 0;
+        sound.load(songs[selectedSong]);
+        if (playing)
+        {
+            sound.play();
+        }
+        pause = false;
         break;
     case '1':
         mode = '1';
