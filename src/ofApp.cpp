@@ -23,7 +23,7 @@ void ofApp::setup()
     }
     sound.load(songs[0]);               // Loads a sound file (in bin/data/)
     sound.setLoop(true);                // Makes the song loop indefinitely
-    sound.setVolume(1);                 // Sets the song volume
+    sound.setVolume(vol);               // Sets the song volume
     ofSetBackgroundColor(255, 170, 80); // Sets the Background Color
 }
 
@@ -51,6 +51,7 @@ void ofApp::draw()
     int percent = pos * 100;
     ofDrawBitmapString("Song Progress: " + ofToString(percent) + "%", 0, 30);
     ofDrawBitmapString("Current Song: " + songs[selectedSong], 0, 45);
+    ofDrawBitmapString("Volume: " + to_string(int(vol * 100)) + '%', 0, 60);
 
     // Mode Selection
     if (!playing)
@@ -157,6 +158,14 @@ void ofApp::keyPressed(int key)
             sound.play();
         }
         pause = false;
+        break;
+    case '-':
+        vol = (vol > 0) ? vol - .1 : 0;
+        sound.setVolume(vol);
+        break;
+    case '+':
+        vol = (vol < 1) ? vol + .1 : 1;
+        sound.setVolume(vol);
         break;
     case '1':
         mode = '1';
