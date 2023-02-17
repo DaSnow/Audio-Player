@@ -20,7 +20,7 @@ void ofApp::setup()
         }
     }
     sound.load(songs[0]);               // Loads a sound file (in bin/data/)
-    sound.setLoop(loopy);                // Makes the song loop indefinitely
+    sound.setLoop(loopy);               // Makes the song loop indefinitely
     sound.setVolume(vol);               // Sets the song volume
     ofSetBackgroundColor(255, 170, 80); // Sets the Background Color
 }
@@ -33,6 +33,17 @@ void ofApp::update()
     ofSoundUpdate();               // Updates all sound players
     visualizer.updateAmplitudes(); // Updates Amplitudes for visualizer
     progress = sound.getPosition();
+    if (progress >= .99 && !loopy && playL)
+    {
+        sound.unload();
+        selectedSong += (selectedSong < songs.size() - 1) ? 1 : -1 * (songs.size() - 1);
+        sound.load(songs[selectedSong]);
+        sound.play();
+    }
+    if (!loopy && !playL)
+    {
+        playing = !playing;
+    }
 }
 
 //--------------------------------------------------------------
@@ -85,7 +96,7 @@ void ofApp::drawMode1(vector<float> amplitudes)
     {
         lastColorRect = ofRandom(0, 256);
         ofSetColor(0, 0, lastColorRect);
-        for(int i = 0; i < amplitudes.size(); i++)
+        for (int i = 0; i < amplitudes.size(); i++)
         {
             ofDrawRectRounded((ofGetWidth() / 64) * (i), ofGetHeight() - 100, (ofGetWidth() / 64), amplitudes[i], 10);
         }
@@ -93,7 +104,7 @@ void ofApp::drawMode1(vector<float> amplitudes)
     else
     {
         ofSetColor(0, 0, lastColorRect);
-        for(int i = 0; i < lastAmp.size(); i++)
+        for (int i = 0; i < lastAmp.size(); i++)
         {
             ofDrawRectRounded((ofGetWidth() / 64) * (i), ofGetHeight() - 100, (ofGetWidth() / 64), lastAmp[i], 10);
         }
@@ -167,6 +178,9 @@ void ofApp::keyPressed(int key)
     case 'r':
         loopy = !loopy;
         sound.setLoop(loopy);
+        break;
+    case 'l':
+        playL = !playL;
         break;
     case '-':
         vol -= (vol > 0) ? .1 : 0;
