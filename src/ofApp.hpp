@@ -2,7 +2,7 @@
 
 #include "AudioVisualizer.hpp"
 #include "ofMain.h"
-#include <array>
+#include <vector>
 
 class ofApp : public ofBaseApp {
 
@@ -15,9 +15,8 @@ class ofApp : public ofBaseApp {
     int lastColorRect;
     float lastAmp;
     char mode = '1';
-    int cap = 0;
     int selectedSong = 0;
-    array<string,69> songs;
+    vector<string> songs;
     float vol = 1;
 
     int cur_x, cur_y = 0;

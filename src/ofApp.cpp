@@ -1,7 +1,7 @@
 #include "ofApp.hpp"
 #include <filesystem>
 #include <string>
-#include <array>
+
 using namespace std;
 namespace fs = std::filesystem;
 
@@ -10,15 +10,13 @@ void ofApp::setup()
 {
     fs::path p = fs::current_path();
     p += "\\bin\\data";
-    // int i = 0;
     for (const auto &dir_entry : fs::directory_iterator{p})
     {
         string filename = dir_entry.path().filename().string();
         string extension = filename.substr(filename.find_last_of("."));
         if (extension == ".wav" || extension == ".mp3")
         {
-            songs[cap] = dir_entry.path().filename().string();
-            cap++;
+            songs.push_back(dir_entry.path().filename().string());
         }
     }
     sound.load(songs[0]);               // Loads a sound file (in bin/data/)
@@ -151,7 +149,7 @@ void ofApp::keyPressed(int key)
         break;
     case 'd':
         sound.unload();
-        selectedSong = (this->selectedSong < cap - 1) ? ++selectedSong : 0;
+        selectedSong = (selectedSong < songs.size() - 1) ? ++selectedSong : 0;
         sound.load(songs[selectedSong]);
         if (playing)
         {
@@ -160,11 +158,11 @@ void ofApp::keyPressed(int key)
         pause = false;
         break;
     case '-':
-        vol = (vol > 0) ? vol - .1 : 0;
+        vol -= (vol > 0) ? .1 : 0;
         sound.setVolume(vol);
         break;
     case '+':
-        vol = (vol < 1) ? vol + .1 : 1;
+        vol += (vol < 1) ? .1 : 0;
         sound.setVolume(vol);
         break;
     case '1':
