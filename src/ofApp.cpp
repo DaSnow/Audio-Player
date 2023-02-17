@@ -85,12 +85,18 @@ void ofApp::drawMode1(vector<float> amplitudes)
     {
         lastColorRect = ofRandom(0, 256);
         ofSetColor(0, 0, lastColorRect);
-        ofDrawRectRounded(2, ofGetHeight() - 100, 80, amplitudes[0], 10);
+        for(int i = 0; i < amplitudes.size(); i++)
+        {
+            ofDrawRectRounded((ofGetWidth() / 64) * (i), ofGetHeight() - 100, (ofGetWidth() / 64), amplitudes[i], 10);
+        }
     }
     else
     {
         ofSetColor(0, 0, lastColorRect);
-        ofDrawRectRounded(2, ofGetHeight() - 100, 80, lastAmp, 10);
+        for(int i = 0; i < lastAmp.size(); i++)
+        {
+            ofDrawRectRounded((ofGetWidth() / 64) * (i), ofGetHeight() - 100, (ofGetWidth() / 64), lastAmp[i], 10);
+        }
     }
 }
 void ofApp::drawMode2(vector<float> amplitudes)
@@ -109,7 +115,7 @@ void ofApp::drawMode2(vector<float> amplitudes)
         }
         else
         {
-            ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, lastAmp / (i + 1));
+            ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, lastAmp[0] / (i + 1));
         }
     }
 }
@@ -144,7 +150,7 @@ void ofApp::keyPressed(int key)
         {
             pause = !pause;
             sound.setPaused(pause);
-            lastAmp = visualizer.getAmplitudes()[0];
+            lastAmp = visualizer.getAmplitudes();
         }
         break;
     case 'd':

@@ -13,7 +13,7 @@ class ofApp : public ofBaseApp {
     bool playing = false;
     bool pause = false;
     int lastColorRect;
-    float lastAmp;
+    vector<float> lastAmp;
     char mode = '1';
     int selectedSong = 0;
     vector<string> songs;
