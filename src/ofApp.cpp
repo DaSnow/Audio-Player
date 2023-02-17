@@ -20,7 +20,7 @@ void ofApp::setup()
         }
     }
     sound.load(songs[0]);               // Loads a sound file (in bin/data/)
-    sound.setLoop(true);                // Makes the song loop indefinitely
+    sound.setLoop(loopy);                // Makes the song loop indefinitely
     sound.setVolume(vol);               // Sets the song volume
     ofSetBackgroundColor(255, 170, 80); // Sets the Background Color
 }
@@ -157,11 +157,16 @@ void ofApp::keyPressed(int key)
         sound.unload();
         selectedSong = (selectedSong < songs.size() - 1) ? ++selectedSong : 0;
         sound.load(songs[selectedSong]);
+        sound.setLoop(loopy);
         if (playing)
         {
             sound.play();
         }
         pause = false;
+        break;
+    case 'r':
+        loopy = !loopy;
+        sound.setLoop(loopy);
         break;
     case '-':
         vol -= (vol > 0) ? .1 : 0;

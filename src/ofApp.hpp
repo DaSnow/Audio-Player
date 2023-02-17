@@ -18,6 +18,7 @@ class ofApp : public ofBaseApp {
     int selectedSong = 0;
     vector<string> songs;
     float vol = 1;
+    bool loopy = true;
 
     int cur_x, cur_y = 0;
     float sound_length;
