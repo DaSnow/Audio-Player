@@ -53,6 +53,12 @@ void ofApp::draw()
     It's in charge of drawing all figures and text on screen */
 
     // Progress Bar
+    float progressWidth = ofGetWidth() * progress;
+    float progressBarHeight = -50;
+    float progressBarY = ofGetHeight();
+    float progressBarX = 0;
+
+    ofDrawRectangle(progressBarX, progressBarY, progressWidth, progressBarHeight);
     ofSetColor(256);
     ofFill();
 
