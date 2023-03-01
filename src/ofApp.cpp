@@ -199,7 +199,7 @@ void ofApp::keyPressed(int key)
         vol -= (vol > 0) ? .1 : 0;
         sound.setVolume(vol);
         break;
-    case '+':
+    case '=':
         vol += (vol < 1) ? .1 : 0;
         sound.setVolume(vol);
         break;
@@ -218,12 +218,15 @@ void ofApp::keyPressed(int key)
         pause = false;
         break;
     case '1':
+        ofSetBackgroundColor(255, 170, 80);
         mode = '1';
         break;
     case '2':
+        ofSetBackgroundColor(180, 120, 150);
         mode = '2';
         break;
     case '3':
+        ofSetBackgroundColor(40, 230, 160);
         mode = '3';
         break;
     }
