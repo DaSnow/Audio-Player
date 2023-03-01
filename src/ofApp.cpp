@@ -206,6 +206,17 @@ void ofApp::keyPressed(int key)
     case 'i':
         backgroundPhoto = !backgroundPhoto;
         break;
+    case 'b':
+        sound.unload();
+        selectedSong = ofRandom(0, songs.size());
+        sound.load(songs[selectedSong]);
+        sound.setLoop(loopy);
+        if (playing)
+        {
+            sound.play();
+        }
+        pause = false;
+        break;
     case '1':
         mode = '1';
         break;
