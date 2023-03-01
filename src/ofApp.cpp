@@ -23,6 +23,7 @@ void ofApp::setup()
     sound.setLoop(loopy);               // Makes the song loop indefinitely
     sound.setVolume(vol);               // Sets the song volume
     ofSetBackgroundColor(255, 170, 80); // Sets the Background Color
+    newBackgroundPhoto.load("beachwallpaper.jpg");
 }
 
 //--------------------------------------------------------------
@@ -51,6 +52,13 @@ void ofApp::draw()
 {
     /* The update method is called muliple times per second
     It's in charge of drawing all figures and text on screen */
+
+    if (backgroundPhoto) {
+        backgroundPhoto = true;
+        ofSetColor(255);
+        ofFill();
+        newBackgroundPhoto.draw(0,0,ofGetWidth(), ofGetHeight());
+    }
 
     // Progress Bar
     float songProgressWidth = ofGetWidth() * progress;
@@ -194,6 +202,9 @@ void ofApp::keyPressed(int key)
     case '+':
         vol += (vol < 1) ? .1 : 0;
         sound.setVolume(vol);
+        break;
+    case 'i':
+        backgroundPhoto = !backgroundPhoto;
         break;
     case '1':
         mode = '1';

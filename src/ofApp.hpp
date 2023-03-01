@@ -9,6 +9,8 @@ class ofApp : public ofBaseApp {
   private:
     ofSoundPlayer sound;
     AudioVisualizer visualizer;
+    ofImage newBackgroundPhoto;
+    bool backgroundPhoto = false;
 
     bool playing = false;
     bool pause = false;
