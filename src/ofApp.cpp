@@ -53,14 +53,13 @@ void ofApp::draw()
     It's in charge of drawing all figures and text on screen */
 
     // Progress Bar
-    float progressWidth = ofGetWidth() * progress;
-    float progressBarHeight = -50;
-    float progressBarY = ofGetHeight();
-    float progressBarX = 0;
-
-    ofDrawRectangle(progressBarX, progressBarY, progressWidth, progressBarHeight);
-    ofSetColor(256);
+    float songProgressWidth = ofGetWidth() * progress;
+    float songProgressBarHeight = -50;
+    float songProgressBarY = ofGetHeight();
+    float songProgressBarX = 0;
+    ofSetColor(255);
     ofFill();
+    ofDrawRectangle(songProgressBarX, songProgressBarY, songProgressWidth, songProgressBarHeight);
 
     float pos = playing ? progress : lastPos;
     int percent = pos * 100;
@@ -221,18 +220,34 @@ void ofApp::mouseMoved(int x, int y)
 }
 
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button)
-{
+void ofApp::mousePressed(int x, int y, int button) {
+    if (button) {
+        float songProgressWidth = ofGetWidth() * progress;
+        float songProgressBarHeight = -50;
+        float songProgressBarY = ofGetHeight();
+        float songProgressBarX = 0;
+        if (x >= songProgressBarX){
+            if (x <= songProgressBarX + songProgressWidth) {
+                if (y >= songProgressBarY) {
+                    if (y <= songProgressBarY - songProgressBarHeight) {
+                        mouseDrag = true;
+                        progress = float (x) / float (ofGetWidth());
+                        sound.setPosition(progress);
+                    }
+                }
+            }
+        }
+    }
 }
 
-//--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button)
-{
+// --------------------------------------------------------------
+void ofApp::mouseDragged(int x, int y, int button) {
+
 }
 
-//--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button)
-{
+// --------------------------------------------------------------
+void ofApp::mouseReleased(int x, int y, int button) {
+
 }
 
 //--------------------------------------------------------------
