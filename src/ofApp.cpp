@@ -242,12 +242,17 @@ void ofApp::mousePressed(int x, int y, int button) {
 
 // --------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button) {
-
+    if (button == mouseDrag) {
+        progress = float (x) / float (ofGetWidth());
+        sound.setPosition(progress);
+    }
 }
 
 // --------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button) {
-
+    if (button == mouseDrag) {
+        mouseDrag = false;
+    }
 }
 
 //--------------------------------------------------------------
