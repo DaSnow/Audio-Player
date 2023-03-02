@@ -20,7 +20,7 @@ class ofApp : public ofBaseApp {
     int selectedSong = 0;
     vector<string> songs;
     float vol = 1;
-    bool loopy = true;
+    bool loopy = false;
     bool playL = true;
 
     int cur_x, cur_y = 0;

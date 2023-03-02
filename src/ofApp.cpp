@@ -34,14 +34,14 @@ void ofApp::update()
     ofSoundUpdate();               // Updates all sound players
     visualizer.updateAmplitudes(); // Updates Amplitudes for visualizer
     progress = sound.getPosition();
-    if (progress >= .99 && !loopy && playL)
+    if (!sound.isPlaying() && playL && playing && !loopy)
     {
         sound.unload();
         selectedSong += (selectedSong < songs.size() - 1) ? 1 : -1 * (songs.size() - 1);
         sound.load(songs[selectedSong]);
         sound.play();
     }
-    if (!loopy && !playL)
+    if (!loopy && !playL && !sound.isPlaying())
     {
         playing = !playing;
     }
@@ -53,11 +53,12 @@ void ofApp::draw()
     /* The update method is called muliple times per second
     It's in charge of drawing all figures and text on screen */
 
-    if (backgroundPhoto) {
+    if (backgroundPhoto)
+    {
         backgroundPhoto = true;
         ofSetColor(255);
         ofFill();
-        newBackgroundPhoto.draw(0,0,ofGetWidth(), ofGetHeight());
+        newBackgroundPhoto.draw(0, 0, ofGetWidth(), ofGetHeight());
     }
 
     // Progress Bar
@@ -69,11 +70,30 @@ void ofApp::draw()
     ofFill();
     ofDrawRectangle(songProgressBarX, songProgressBarY, songProgressWidth, songProgressBarHeight);
 
+    string Smode;
+    if (loopy)
+    {
+        Smode = "Song Repeat";
+    }
+    else if (!loopy && playL)
+    {
+        Smode = "Playlist Loop";
+    }
+    else
+    {
+        Smode = "None";
+    }
+
+    // Display Info
+    ofSetColor(0);
+    ofDrawRectangle(0, 0, 400, 80);
+    ofSetColor(255);
     float pos = playing ? progress : lastPos;
     int percent = pos * 100;
     ofDrawBitmapString("Song Progress: " + ofToString(percent) + "%", 0, 30);
     ofDrawBitmapString("Current Song: " + songs[selectedSong], 0, 45);
     ofDrawBitmapString("Volume: " + to_string(int(vol * 100)) + '%', 0, 60);
+    ofDrawBitmapString("Current Mode: " + ofToString(Smode), 0, 75);
 
     // Mode Selection
     if (!playing)
@@ -157,6 +177,7 @@ void ofApp::keyPressed(int key)
     // This method is called automatically when any key is pressed
     switch (key)
     {
+    // Start / End Song Button
     case 'p':
         if (playing)
         {
@@ -169,6 +190,7 @@ void ofApp::keyPressed(int key)
         }
         playing = !playing;
         break;
+    // Pause button
     case 'a':
         if (playing)
         {
@@ -177,6 +199,7 @@ void ofApp::keyPressed(int key)
             lastAmp = visualizer.getAmplitudes();
         }
         break;
+    // Next Button
     case 'd':
         sound.unload();
         selectedSong = (selectedSong < songs.size() - 1) ? ++selectedSong : 0;
@@ -188,24 +211,30 @@ void ofApp::keyPressed(int key)
         }
         pause = false;
         break;
+    // Song loop
     case 'r':
         loopy = !loopy;
         sound.setLoop(loopy);
         break;
+    // Playlist Loop
     case 'l':
         playL = !playL;
         break;
+    // Lower Volume
     case '-':
         vol -= (vol > 0) ? .1 : 0;
         sound.setVolume(vol);
         break;
-    case '=':
+    // Increase Volume
+    case '+':
         vol += (vol < 1) ? .1 : 0;
         sound.setVolume(vol);
         break;
+    // Set Background
     case 'i':
         backgroundPhoto = !backgroundPhoto;
         break;
+    // Song Shuffle
     case 'b':
         sound.unload();
         selectedSong = ofRandom(0, songs.size());
@@ -245,18 +274,24 @@ void ofApp::mouseMoved(int x, int y)
 }
 
 //--------------------------------------------------------------
-void ofApp::mousePressed(int x, int y, int button) {
-    if (button) {
+void ofApp::mousePressed(int x, int y, int button)
+{
+    if (button)
+    {
         float songProgressWidth = ofGetWidth() * progress;
         float songProgressBarHeight = -50;
         float songProgressBarY = ofGetHeight();
         float songProgressBarX = 0;
-        if (x >= songProgressBarX){
-            if (x <= songProgressBarX + songProgressWidth) {
-                if (y >= songProgressBarY) {
-                    if (y <= songProgressBarY - songProgressBarHeight) {
+        if (x >= songProgressBarX)
+        {
+            if (x <= songProgressBarX + songProgressWidth)
+            {
+                if (y >= songProgressBarY)
+                {
+                    if (y <= songProgressBarY - songProgressBarHeight)
+                    {
                         mouseDrag = true;
-                        progress = float (x) / float (ofGetWidth());
+                        progress = float(x) / float(ofGetWidth());
                         sound.setPosition(progress);
                     }
                 }
@@ -266,16 +301,20 @@ void ofApp::mousePressed(int x, int y, int button) {
 }
 
 // --------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button) {
-    if (button == mouseDrag) {
-        progress = float (x) / float (ofGetWidth());
+void ofApp::mouseDragged(int x, int y, int button)
+{
+    if (button == mouseDrag)
+    {
+        progress = float(x) / float(ofGetWidth());
         sound.setPosition(progress);
     }
 }
 
 // --------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button) {
-    if (button == mouseDrag) {
+void ofApp::mouseReleased(int x, int y, int button)
+{
+    if (button == mouseDrag)
+    {
         mouseDrag = false;
     }
 }
