@@ -95,6 +95,22 @@ void ofApp::draw()
     ofDrawBitmapString("Volume: " + to_string(int(vol * 100)) + '%', 0, 60);
     ofDrawBitmapString("Current Mode: " + ofToString(Smode), 0, 75);
 
+    // Command Menu display
+    ofSetColor(0);
+    ofDrawRectangle(ofGetWidth(), 0, 220 * -1, 160);
+    ofSetColor(255);
+    ofDrawBitmapString("Key Commands", ofGetWidth() - 210, 15);
+    ofDrawBitmapString("'p' - Plays/Stops", ofGetWidth() -210, 30);
+    ofDrawBitmapString("'a' - Pauses", ofGetWidth() - 210, 45);
+    ofDrawBitmapString("'d' - Plays next song", ofGetWidth() - 210, 60);
+    ofDrawBitmapString("'r' - Loops song", ofGetWidth() - 210, 75);
+    ofDrawBitmapString("'l' - Loops PLaylist", ofGetWidth() - 210, 90);
+    ofDrawBitmapString("'b' - Shuffles song", ofGetWidth() - 210, 105);
+    ofDrawBitmapString("'i' - Switches background", ofGetWidth() - 210, 120);
+    ofDrawBitmapString("'+' - Increases volume", ofGetWidth() - 210, 135);
+    ofDrawBitmapString("'-' - Decreases volume", ofGetWidth() - 210, 150);
+
+
     // Mode Selection
     if (!playing)
     {
