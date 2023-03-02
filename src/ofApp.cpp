@@ -34,7 +34,7 @@ void ofApp::update()
     ofSoundUpdate();               // Updates all sound players
     visualizer.updateAmplitudes(); // Updates Amplitudes for visualizer
     progress = sound.getPosition();
-    if (!sound.isPlaying() && playL && playing && !loopy)
+    if (!sound.isPlaying() && playL && playing && !loopy && !pause)
     {
         sound.unload();
         selectedSong += (selectedSong < songs.size() - 1) ? 1 : -1 * (songs.size() - 1);
