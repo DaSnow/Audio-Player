@@ -29,6 +29,7 @@ class ofApp : public ofBaseApp {
     float progress = 0;
     float lastPos = 0;
     bool mouseDrag = false;
+    bool commandList = false;
 
   public:
     void setup();

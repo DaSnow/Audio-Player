@@ -86,7 +86,7 @@ void ofApp::draw()
 
     // Display Info
     ofSetColor(0,0,0,127);
-    ofDrawRectangle(0, 0, 400, 80);
+    ofDrawRectangle(0, 0, 350, 80);
     ofSetColor(255);
     float pos = playing ? progress : lastPos;
     int percent = pos * 100;
@@ -96,19 +96,27 @@ void ofApp::draw()
     ofDrawBitmapString("Current Mode: " + ofToString(Smode), 0, 75);
 
     // Command Menu display
-    ofSetColor(0,0,0,127);
-    ofDrawRectangle(ofGetWidth(), 0, 220 * -1, 160);
-    ofSetColor(255);
-    ofDrawBitmapString("Key Commands", ofGetWidth() - 210, 15);
-    ofDrawBitmapString("'p' - Plays/Stops", ofGetWidth() -210, 30);
-    ofDrawBitmapString("'a' - Pauses", ofGetWidth() - 210, 45);
-    ofDrawBitmapString("'d' - Plays next song", ofGetWidth() - 210, 60);
-    ofDrawBitmapString("'r' - Loops song", ofGetWidth() - 210, 75);
-    ofDrawBitmapString("'l' - Loops PLaylist", ofGetWidth() - 210, 90);
-    ofDrawBitmapString("'b' - Shuffles song", ofGetWidth() - 210, 105);
-    ofDrawBitmapString("'i' - Switches background", ofGetWidth() - 210, 120);
-    ofDrawBitmapString("'+' - Increases volume", ofGetWidth() - 210, 135);
-    ofDrawBitmapString("'-' - Decreases volume", ofGetWidth() - 210, 150);
+    if (!commandList) {
+        ofSetColor(0,0,0,127);
+        ofDrawRectangle(ofGetWidth(), 0, 235 * -1, 20);
+        ofSetColor(255);
+        ofDrawBitmapString("Press M to see key commands", ofGetWidth() - 222, 15);
+    }
+    if (commandList) {
+        ofSetColor(0,0,0,127);
+        ofDrawRectangle(ofGetWidth(), 0, 235 * -1, 160);
+        ofSetColor(255);
+        ofDrawBitmapString("Press M to hide key commands", ofGetWidth() - 230, 15);
+        ofDrawBitmapString("'p' - Plays/Stops", ofGetWidth() -210, 30);
+        ofDrawBitmapString("'a' - Pauses", ofGetWidth() - 210, 45);
+        ofDrawBitmapString("'d' - Plays next song", ofGetWidth() - 210, 60);
+        ofDrawBitmapString("'r' - Loops song", ofGetWidth() - 210, 75);
+        ofDrawBitmapString("'l' - Loops PLaylist", ofGetWidth() - 210, 90);
+        ofDrawBitmapString("'b' - Shuffles song", ofGetWidth() - 210, 105);
+        ofDrawBitmapString("'i' - Switches background", ofGetWidth() - 210, 120);
+        ofDrawBitmapString("'=' - Increases volume", ofGetWidth() - 210, 135);
+        ofDrawBitmapString("'-' - Decreases volume", ofGetWidth() - 210, 150);
+    }
 
 
     // Mode Selection
@@ -242,7 +250,7 @@ void ofApp::keyPressed(int key)
         sound.setVolume(vol);
         break;
     // Increase Volume
-    case '+':
+    case '=':
         vol += (vol < 1) ? .1 : 0;
         sound.setVolume(vol);
         break;
@@ -261,6 +269,9 @@ void ofApp::keyPressed(int key)
             sound.play();
         }
         pause = false;
+        break;
+    case 'm':
+        commandList = !commandList;
         break;
     case '1':
         ofSetBackgroundColor(255, 170, 80);
