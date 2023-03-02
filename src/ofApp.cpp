@@ -85,7 +85,7 @@ void ofApp::draw()
     }
 
     // Display Info
-    ofSetColor(0);
+    ofSetColor(0,0,0,127);
     ofDrawRectangle(0, 0, 400, 80);
     ofSetColor(255);
     float pos = playing ? progress : lastPos;
@@ -96,7 +96,7 @@ void ofApp::draw()
     ofDrawBitmapString("Current Mode: " + ofToString(Smode), 0, 75);
 
     // Command Menu display
-    ofSetColor(0);
+    ofSetColor(0,0,0,127);
     ofDrawRectangle(ofGetWidth(), 0, 220 * -1, 160);
     ofSetColor(255);
     ofDrawBitmapString("Key Commands", ofGetWidth() - 210, 15);
