@@ -85,7 +85,7 @@ void ofApp::draw()
     }
 
     // Display Info
-    ofSetColor(0,0,0,127);
+    ofSetColor(0, 0, 0, 127);
     ofDrawRectangle(0, 0, 350, 80);
     ofSetColor(255);
     float pos = playing ? progress : lastPos;
@@ -96,28 +96,29 @@ void ofApp::draw()
     ofDrawBitmapString("Current Mode: " + ofToString(Smode), 0, 75);
 
     // Command Menu display
-    if (!commandList) {
-        ofSetColor(0,0,0,127);
+    if (!commandList)
+    {
+        ofSetColor(0, 0, 0, 127);
         ofDrawRectangle(ofGetWidth(), 0, 235 * -1, 20);
         ofSetColor(255);
         ofDrawBitmapString("Press M to see key commands", ofGetWidth() - 222, 15);
     }
-    if (commandList) {
-        ofSetColor(0,0,0,127);
+    if (commandList)
+    {
+        ofSetColor(0, 0, 0, 127);
         ofDrawRectangle(ofGetWidth(), 0, 235 * -1, 160);
         ofSetColor(255);
         ofDrawBitmapString("Press M to hide key commands", ofGetWidth() - 230, 15);
-        ofDrawBitmapString("'p' - Plays/Stops", ofGetWidth() -210, 30);
+        ofDrawBitmapString("'p' - Plays/Stops", ofGetWidth() - 210, 30);
         ofDrawBitmapString("'a' - Pauses", ofGetWidth() - 210, 45);
         ofDrawBitmapString("'d' - Plays next song", ofGetWidth() - 210, 60);
         ofDrawBitmapString("'r' - Loops song", ofGetWidth() - 210, 75);
         ofDrawBitmapString("'l' - Loops PLaylist", ofGetWidth() - 210, 90);
         ofDrawBitmapString("'b' - Shuffles song", ofGetWidth() - 210, 105);
-        ofDrawBitmapString("'i' - Switches background", ofGetWidth() - 210, 120);
+        ofDrawBitmapString("'i' - (En/Dis)able background", ofGetWidth() - 210, 120);
         ofDrawBitmapString("'=' - Increases volume", ofGetWidth() - 210, 135);
         ofDrawBitmapString("'-' - Decreases volume", ofGetWidth() - 210, 150);
     }
-
 
     // Mode Selection
     if (!playing)
@@ -153,7 +154,7 @@ void ofApp::drawMode1(vector<float> amplitudes)
     {
         lastColorRect = ofRandom(0, 256);
         ofSetColor(0, 0, lastColorRect);
-        for (int i = 0; i < amplitudes.size(); i++)
+        for (int i = 0; i <= amplitudes.size(); i++)
         {
             ofDrawRectRounded((ofGetWidth() / 64) * (i), ofGetHeight() - 100, (ofGetWidth() / 64), amplitudes[i], 10);
         }
@@ -161,7 +162,7 @@ void ofApp::drawMode1(vector<float> amplitudes)
     else
     {
         ofSetColor(0, 0, lastColorRect);
-        for (int i = 0; i < lastAmp.size(); i++)
+        for (int i = 0; i <= lastAmp.size(); i++)
         {
             ofDrawRectRounded((ofGetWidth() / 64) * (i), ofGetHeight() - 100, (ofGetWidth() / 64), lastAmp[i], 10);
         }
@@ -174,7 +175,7 @@ void ofApp::drawMode2(vector<float> amplitudes)
     ofSetColor(256);   // This resets the color of the "brush" to white
     ofDrawBitmapString("Circle Radius Visualizer", 0, 15);
     int bands = amplitudes.size();
-    for (int i = 0; i < bands; i++)
+    for (int i = 0; i <= bands; i++)
     {
         ofSetColor((bands - i) * 32 % 256, 18, 144); // Color varies between frequencies
         if (!pause)
@@ -191,8 +192,22 @@ void ofApp::drawMode2(vector<float> amplitudes)
 void ofApp::drawMode3(vector<float> amplitudes)
 {
     ofSetColor(256); // This resets the color of the "brush" to white
-    ofDrawBitmapString("Rectangle Width Visualizer", 0, 15);
-    // YOUR CODE HERE
+    ofDrawBitmapString("Lined Visualizer", 0, 15);
+    ofSetColor(lastColorRect);
+    for (int i = 1; i <= amplitudes.size(); i++)
+    {
+        ofSetLineWidth(100);
+        if (!pause)
+        {
+            lastColorRect = ofRandom(210,256);
+            ofDrawLine((ofGetWidth() / 64) * (i - 1), (ofGetHeight() - 100 + amplitudes[i - 1]),
+                   (ofGetWidth() / 64) * i, (ofGetHeight() - 100 + amplitudes[i]));
+        }
+        else{
+            ofDrawLine((ofGetWidth() / 64) * (i - 1), (ofGetHeight() - 100 + lastAmp[i - 1]),
+                   (ofGetWidth() / 64) * i, (ofGetHeight() - 100 + lastAmp[i]));
+        }
+    }
 }
 
 //--------------------------------------------------------------
