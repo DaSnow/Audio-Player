@@ -200,13 +200,14 @@ void ofApp::drawMode3(vector<float> amplitudes)
         ofSetLineWidth(100);
         if (!pause)
         {
-            lastColorRect = ofRandom(210,256);
+            lastColorRect = ofRandom(210, 256);
             ofDrawLine((ofGetWidth() / 64) * (i - 1), (ofGetHeight() - 100 + amplitudes[i - 1]),
-                   (ofGetWidth() / 64) * i, (ofGetHeight() - 100 + amplitudes[i]));
+                       (ofGetWidth() / 64) * i, (ofGetHeight() - 100 + amplitudes[i]));
         }
-        else{
+        else
+        {
             ofDrawLine((ofGetWidth() / 64) * (i - 1), (ofGetHeight() - 100 + lastAmp[i - 1]),
-                   (ofGetWidth() / 64) * i, (ofGetHeight() - 100 + lastAmp[i]));
+                       (ofGetWidth() / 64) * i, (ofGetHeight() - 100 + lastAmp[i]));
         }
     }
 }
@@ -262,12 +263,12 @@ void ofApp::keyPressed(int key)
         break;
     // Lower Volume
     case '-':
-        vol -= (vol > 0) ? .1 : 0;
+        vol = (vol > 0.1) ? vol - 0.1 : 0;
         sound.setVolume(vol);
         break;
     // Increase Volume
     case '=':
-        vol += (vol < 1) ? .1 : 0;
+        vol = (vol < 1) ? vol + 0.1 : 1;
         sound.setVolume(vol);
         break;
     // Set Background
@@ -324,9 +325,6 @@ void ofApp::mousePressed(int x, int y, int button)
         mouseDrag = true;
         progress = float(x) / float(ofGetWidth());
         sound.setPosition(progress);
-    }
-    {
-
     }
 }
 
