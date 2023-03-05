@@ -30,6 +30,11 @@ class ofApp : public ofBaseApp {
     float lastPos = 0;
     bool mouseDrag = false;
     bool commandList = false;
+    float xPos1;
+    float YPos1;
+    float Width1;
+    float Height1;
+    ofRectangle songProgressBar;
 
   public:
     void setup();

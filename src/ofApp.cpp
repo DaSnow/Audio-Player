@@ -62,13 +62,14 @@ void ofApp::draw()
     }
 
     // Progress Bar
-    float songProgressWidth = ofGetWidth() * progress;
-    float songProgressBarHeight = -50;
-    float songProgressBarY = ofGetHeight();
-    float songProgressBarX = 0;
+    xPos1 = 0;
+    YPos1 = ofGetHeight();
+    Width1 = ofGetWidth() * progress;
+    Height1 = -50;
+    songProgressBar = ofRectangle(xPos1, YPos1, Width1, Height1);
     ofSetColor(255);
     ofFill();
-    ofDrawRectangle(songProgressBarX, songProgressBarY, songProgressWidth, songProgressBarHeight);
+    ofDrawRectangle(songProgressBar);
 
     string Smode;
     if (loopy)
@@ -318,34 +319,21 @@ void ofApp::mouseMoved(int x, int y)
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button)
 {
-    if (button)
+    if (songProgressBar.inside(x, y))
     {
-        float songProgressWidth = ofGetWidth() * progress;
-        float songProgressBarHeight = -50;
-        float songProgressBarY = ofGetHeight();
-        float songProgressBarX = 0;
-        if (x >= songProgressBarX)
-        {
-            if (x <= songProgressBarX + songProgressWidth)
-            {
-                if (y >= songProgressBarY)
-                {
-                    if (y <= songProgressBarY - songProgressBarHeight)
-                    {
-                        mouseDrag = true;
-                        progress = float(x) / float(ofGetWidth());
-                        sound.setPosition(progress);
-                    }
-                }
-            }
-        }
+        mouseDrag = true;
+        progress = float(x) / float(ofGetWidth());
+        sound.setPosition(progress);
+    }
+    {
+
     }
 }
 
 // --------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button)
 {
-    if (button == mouseDrag)
+    if (mouseDrag)
     {
         progress = float(x) / float(ofGetWidth());
         sound.setPosition(progress);
@@ -355,7 +343,7 @@ void ofApp::mouseDragged(int x, int y, int button)
 // --------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button)
 {
-    if (button == mouseDrag)
+    if (mouseDrag)
     {
         mouseDrag = false;
     }
