@@ -34,7 +34,7 @@ void ofApp::update()
     ofSoundUpdate();               // Updates all sound players
     visualizer.updateAmplitudes(); // Updates Amplitudes for visualizer
     progress = sound.getPosition();
-    if (!sound.isPlaying() && playL && playing && !loopy && !pause)
+    if (!sound.isPlaying() && playL && playing && !loopy && !pause && !mouseDrag)
     {
         sound.unload();
         selectedSong += (selectedSong < songs.size() - 1) ? 1 : -1 * (songs.size() - 1);
@@ -326,6 +326,7 @@ void ofApp::mousePressed(int x, int y, int button)
         mouseDrag = true;
         progress = float(x) / float(ofGetWidth());
         sound.setPosition(progress);
+        sound.setPaused(true);
     }
 }
 
@@ -345,6 +346,7 @@ void ofApp::mouseReleased(int x, int y, int button)
     if (mouseDrag)
     {
         mouseDrag = false;
+        sound.play();
     }
 }
 
