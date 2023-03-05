@@ -39,6 +39,7 @@ void ofApp::update()
         sound.unload();
         selectedSong += (selectedSong < songs.size() - 1) ? 1 : -1 * (songs.size() - 1);
         sound.load(songs[selectedSong]);
+        sound.setVolume(vol);
         sound.play();
     }
     if (!loopy && !playL && !sound.isPlaying())
