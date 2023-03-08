@@ -117,7 +117,7 @@ void ofApp::draw()
         ofDrawBitmapString("'r' - Loops song", ofGetWidth() - 210, 75);
         ofDrawBitmapString("'l' - Loops PLaylist", ofGetWidth() - 210, 90);
         ofDrawBitmapString("'b' - Shuffles song", ofGetWidth() - 210, 105);
-        ofDrawBitmapString("'i' - (En/Dis)able background", ofGetWidth() - 210, 120);
+        ofDrawBitmapString("'i' - Toggle background", ofGetWidth() - 210, 120);
         ofDrawBitmapString("'=' - Increases volume", ofGetWidth() - 210, 135);
         ofDrawBitmapString("'-' - Decreases volume", ofGetWidth() - 210, 150);
     }
